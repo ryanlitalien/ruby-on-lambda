@@ -1,0 +1,48 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aws-eventstream (1.0.1)
+    aws-partitions (1.128.0)
+    aws-record (2.2.0)
+      aws-sdk-dynamodb (~> 1.18)
+    aws-sdk-core (3.44.2)
+      aws-eventstream (~> 1.0)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-dynamodb (1.19.0)
+      aws-sdk-core (~> 3, >= 3.39.0)
+      aws-sigv4 (~> 1.0)
+    aws-sdk-kms (1.13.0)
+      aws-sdk-core (~> 3, >= 3.39.0)
+      aws-sigv4 (~> 1.0)
+    aws-sdk-s3 (1.30.0)
+      aws-sdk-core (~> 3, >= 3.39.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.0.3)
+    faraday (0.15.4)
+      multipart-post (>= 1.2, < 3)
+    jmespath (1.4.0)
+    jwt (2.1.0)
+    mini_portile2 (2.4.0)
+    multipart-post (2.0.0)
+    nokogiri (1.10.0)
+      mini_portile2 (~> 2.4.0)
+    twilio-ruby (5.18.0)
+      faraday (~> 0.9)
+      jwt (>= 1.5, <= 2.5)
+      nokogiri (>= 1.6, < 2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  aws-record (~> 2)
+  aws-sdk-dynamodb (~> 1)
+  aws-sdk-s3 (~> 1)
+  nokogiri (~> 1.10)
+  twilio-ruby
+
+BUNDLED WITH
+   1.16.1

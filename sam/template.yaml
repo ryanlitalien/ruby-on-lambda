@@ -1,0 +1,182 @@
+# To deploy for the first time, and for each update,
+# run both of the following commands in order:
+#
+# aws cloudformation package \
+# --template-file sam/template.yaml \
+# --output-template-file template-out.yaml \
+# --s3-bucket <your-s3-bucket-name>
+#
+# aws cloudformation deploy \
+# --template-file <path-to-file/template-out.yaml \
+# --stack-name <STACK_NAME> \
+# --capabilities CAPABILITY_IAM
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: "QuickTrack - Lambda handler for API Gateway - Twilio integration"
+Resources:
+  QuickTrackLambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: s3://www.quicktrack.pro/lambda_function.zip
+      Handler: lambda_function.lambda_handler
+      Runtime: ruby2.5
+      Description: "QuickTrack - Lambda handler for API Gateway - Twilio integration"
+      MemorySize: 256
+      Timeout: 60
+      Layers:
+        - !Ref QuickTrackLambdaLayer
+      Events:
+        AddPhotoApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref QuickTrackApiGateway
+            Path: /addphoto
+            Method: GET
+        GetPhotosApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref QuickTrackApiGateway
+            Path: /getphotos
+            Method: GET
+
+      Policies:
+        - AmazonS3FullAccess
+        - DynamoDBCrudPolicy:
+            TableName: !Ref QuickTrackDb
+      Environment:
+        Variables:
+          DDB_TABLE: !Ref QuickTrackDb
+          REGION_NAME: !Ref 'AWS::Region'
+          BUCKET_NAME: "www.quicktrack.pro"
+          GEM_PATH: "/opt/ruby/2.5.0"
+
+  QuickTrackLambdaLayer:
+    Type: "AWS::Serverless::LayerVersion"
+    Properties:
+      LayerName: "QuickTrackLambdaLayer"
+      ContentUri: 's3://www.quicktrack.pro/ruby-gems.zip'
+      CompatibleRuntimes:
+        - ruby2.5
+      LicenseInfo: 'Available under the MIT-0 license.'
+      RetentionPolicy: Retain
+
+  QuickTrackDb:
+    Type: AWS::Serverless::SimpleTable
+    Name:
+    Properties:
+      TableName: "QuickTrackDb"
+      PrimaryKey:
+        Name: fromNumber
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+
+  QuickTrackApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      # Moving swagger to inline to fix CORS issue
+      # DefinitionUri: s3://www.quicktrack.pro/swagger.yaml
+      StageName: Prod
+      DefinitionBody:
+        swagger: "2.0"
+        info:
+          version: "2016-12-20T18:27:47Z"
+          title: "quicktrack-apigateway-twilio"
+        basePath: "/Prod"
+        schemes:
+          - "https"
+        paths:
+          /getphotos:
+            get:
+              consumes:
+                - "application/json"
+              produces:
+                - "application/json"
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${QuickTrackLambda.Arn}/invocations
+              responses: {}
+            options:
+              summary: CORS support
+              description: "Enable CORS by returning correct headers"
+              consumes:
+                - application/json
+              produces:
+                - application/json
+              tags:
+                - CORS
+              x-amazon-apigateway-integration:
+                type: mock
+                requestTemplates:
+                  application/json: |
+                    {
+                      "statusCode" : 200
+                    }
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+                      method.response.header.Access-Control-Allow-Methods: "'*'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                    responseTemplates:
+                      application/json: |
+                        {}
+              responses:
+                "200":
+                  description: "Default response for CORS method"
+                  headers:
+                    Access-Control-Allow-Headers:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Origin:
+                      type: "string"
+
+          /addphoto:
+            get:
+              consumes:
+                - "application/json"
+              produces:
+                - "application/xml"
+              responses:
+                "200":
+                  description: "200 response"
+                  headers:
+                    Content-Type:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseTemplates:
+                      application/xml: "#set($inputRoot = $input.path('$'))\n<?xml version=\"\
+                        1.0\" encoding=\"UTF-8\"?>\n<Response>\n    <Message>\n        <Body>\n\
+                        \            $inputRoot\n        </Body>\n    </Message>\n</Response> "
+                    responseParameters:
+                      method.response.header.Content-Type: "'application/xml'"
+                requestTemplates:
+                  application/json: "{\n    \"body\" : \"$input.params('Body')\",\n    \"\
+                    fromNumber\" : \"$input.params('From')\",\n    \"image\" : \"$input.params('MediaUrl0')\"\
+                    ,\n    \"numMedia\" : \"$input.params('NumMedia')\"\n}"
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${QuickTrackLambda.Arn}/invocations
+                passthroughBehavior: "when_no_templates"
+                httpMethod: "POST"
+                contentHandling: "CONVERT_TO_TEXT"
+                type: "aws"
+
+Outputs:
+  ApiUrl:
+    Description: "URL of your API endpoint"
+    Value: !Join
+      - ''
+      - - https://
+        - !Ref QuickTrackApiGateway
+        - '.execute-api.'
+        - !Ref 'AWS::Region'
+        - '.amazonaws.com/Prod'
