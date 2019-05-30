@@ -146,6 +146,8 @@ def add_photo(event)
   pic_url = event['image']
   num_media = event['numMedia']
 
+  twilio_resp = "No image found, try sending in some food!"
+
   # Check if we have their number
   params = {
     table_name: @dynamodb_table_name,
@@ -179,10 +181,10 @@ def add_photo(event)
     s3_file_url = upload_to_s3(@s3_bucket_name, key, "/tmp/#{file_name}")
 
     twilio_resp = "Hi, here's your link: http://www.quicktrack.pro?num=#{from_number}"
-  else
-    twilio_resp = "No image found, try sending in some food!"
   end
 
   # { statusCode: 200, body: JSON.generate({ message: twilio_resp }) }
   twilio_resp
+rescue Exception => e
+  log e.message
 end

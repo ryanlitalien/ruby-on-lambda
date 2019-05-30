@@ -10,7 +10,7 @@ sam package --template-file sam/template.yaml \
 --s3-bucket www.quicktrack.pro
 
 #./.bundle/
-zip -9 dist/lambda_function.zip ruby/lambda_function.rb dist/packaged-template.yaml sam/template.yaml
+zip -9 dist/lambda_function.zip lambda_function.rb dist/packaged-template.yaml sam/template.yaml
 zip -r9 dist/ruby-gems.zip ./ruby/
 
 aws s3 cp --region us-east-1 index.html s3://www.quicktrack.pro/index.html

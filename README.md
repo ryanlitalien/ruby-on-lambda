@@ -24,21 +24,33 @@ uses AWS Lambda to process images, DynamoDB to store information and Twilio to h
   * Lambda
   * S3 
 
+## Prerequisite Setup
+* Buy domain name, setup DNS to point to AWS
+* Bucket creation (see `config/s3-bucket-policy.json`)
+* Point domains to buckets
+* ...
+* Run `./scripts/create_lambda_package.sh`
+* Update `www.domain.name` bucket with updated policy
+* Test via new domain name
+
 ## Architecture Diagram
 
 TODO
 
 ## Local Development
 
-TODO
+* Update `scripts/update_lambda_package.sh` with correct URLs
+* If modifying Ruby or HTML, run: `./scripts/update_lambda_package.sh`
+* If modifying SAM or AWS, run: `./scripts/create_lambda_package.sh`
 
 ## Deploy
 
 * Check into "master"
 * Boom
 
-## Deploy Steps
-* `sh ./scripts/create_lambda_package.sh`
+## Actual Deploy Steps
+* Github master kicks off Github Actions
+* ...
 
 ### Links
 
