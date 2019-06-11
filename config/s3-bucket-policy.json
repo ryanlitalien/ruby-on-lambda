@@ -4,7 +4,7 @@
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::${AWS::AccountId}:role/QuickTrackStack-QuickTrackLambdaRole-ABC1234"
+        "AWS": "arn:aws:iam::${AWS::AccountId}:role/QuickTrackStack-QuickTrackLambdaRole-123456"
       },
       "Action": "s3:*",
       "Resource": [

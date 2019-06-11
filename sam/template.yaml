@@ -1,15 +1,4 @@
-# To deploy for the first time, and for each update,
-# run both of the following commands in order:
-#
-# aws cloudformation package \
-# --template-file sam/template.yaml \
-# --output-template-file template-out.yaml \
-# --s3-bucket <your-s3-bucket-name>
-#
-# aws cloudformation deploy \
-# --template-file <path-to-file/template-out.yaml \
-# --stack-name <STACK_NAME> \
-# --capabilities CAPABILITY_IAM
+# See "scripts/create_lambda_package.sh" for deployment steps
 
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'

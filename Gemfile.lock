@@ -21,6 +21,7 @@ GEM
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.3)
+    dotenv (2.7.2)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     jmespath (1.4.0)
@@ -41,8 +42,9 @@ DEPENDENCIES
   aws-record (~> 2)
   aws-sdk-dynamodb (~> 1)
   aws-sdk-s3 (~> 1)
+  dotenv
   nokogiri (~> 1.10)
   twilio-ruby
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
