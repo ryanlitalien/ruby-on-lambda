@@ -180,7 +180,7 @@ def add_photo(event)
   log "response_dynamo: #{response_dynamo.inspect}"
   if response_dynamo.count.zero?
     if message.length.zero?
-      return "Please send us an SMS with your name first!"
+      return "What is your name?"
     else
       put_item(from_number, message)
       return "We've added you to the system! Snap away."

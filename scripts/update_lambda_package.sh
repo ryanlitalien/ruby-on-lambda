@@ -20,6 +20,7 @@ aws s3 cp --region us-east-1 index.html s3://www.quicktrack.pro/index.html
 
 echo "Updating layer..."
 # Strip quotes from lambda ARN because why not add another layer of complexity
+# This is what the 'tr' function is doing at the end of the line
 LAYER_VERSION_ARN=$(aws lambda publish-layer-version --layer-name "QuickTrackLambdaLayer" --zip-file "$RUBY_GEMS_ZIP" --compatible-runtimes ruby2.5 --query "LayerVersionArn" | tr -d \")
 
 echo "LAYER_VERSION_ARN: $LAYER_VERSION_ARN"

@@ -22,18 +22,7 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.3)
     dotenv (2.7.2)
-    faraday (0.15.4)
-      multipart-post (>= 1.2, < 3)
     jmespath (1.4.0)
-    jwt (2.1.0)
-    mini_portile2 (2.4.0)
-    multipart-post (2.0.0)
-    nokogiri (1.10.0)
-      mini_portile2 (~> 2.4.0)
-    twilio-ruby (5.18.0)
-      faraday (~> 0.9)
-      jwt (>= 1.5, <= 2.5)
-      nokogiri (>= 1.6, < 2.0)
 
 PLATFORMS
   ruby
@@ -43,8 +32,6 @@ DEPENDENCIES
   aws-sdk-dynamodb (~> 1)
   aws-sdk-s3 (~> 1)
   dotenv
-  nokogiri (~> 1.10)
-  twilio-ruby
 
 BUNDLED WITH
    1.16.2

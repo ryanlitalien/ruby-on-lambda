@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-bundle install
+bundle install --no-deployment
 bundle install --deployment
-#gem pristine --all
-#bundle install --deployment --path=.
 
 # Package up the SAM template, upload into S3 bucket
 sam package --template-file sam/template.yaml \
@@ -24,3 +22,6 @@ aws s3 cp --region us-east-1 dist/ruby-gems.zip s3://www.quicktrack.pro/ruby-gem
 sam deploy --template-file dist/packaged-template.yaml \
 --stack-name QuickTrackStack \
 --capabilities CAPABILITY_IAM
+
+echo "This is your new API URL!"
+aws cloudformation describe-stacks --stack-name "QuickTrackStack" --query "Stacks[0].Outputs[0].OutputValue"

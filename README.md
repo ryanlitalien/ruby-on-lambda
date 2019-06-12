@@ -15,40 +15,69 @@ uses AWS Lambda to process images, DynamoDB to store information and Twilio to h
 
 * Ruby
 * Vue.js
+* Webpacker
+* Bash
 * GitHub Actions
 * Twilio
-* AWS Serverless using:
+* AWS SAM (Serverless Application Model)
   * API Gateway
   * CloudFormation 
   * DynamoDB
   * Lambda
   * Lambda Layers
-  * S3 
+  * S3
+  * IAM
+  * awscli
+
+## Assumptions
+
+These aren't barriers, just assumptions as they're probably defaults
+
+* You're using AWS Region `us-east-1`
+* You're using your own AWS account
+* You're adding a bucket outside of this process. Including a "long-living" bucket is a bad idea in the SAM stack.
 
 ## Prerequisite Setup
+
 * Buy domain name, setup DNS to point to AWS
 * Bucket creation (see `config/s3-bucket-policy.json`)
 * Point domains to buckets
 * Install `aws` cli via brew (or other package managers)
   * `brew install awscli` 
   * `aws --version` (_should be around version 1.16.170_)
+  * You might need to setup credentials
 * Run `./scripts/create_lambda_package.sh`
-* Update `www.domain.name` bucket with updated policy
+  * You should see `Successfully created/updated stack - QuickTrackStack`
+  * and
+  * `This is your new API URL!` with an AWS API Gateway URL
+* Put your new API URL into `index.html`
+* Update `www.domain.name` bucket policy with updated Lambda ARN
+  * Example policy: `config/s3-bucket-policy.json`
+  * You can find it in your new role: https://console.aws.amazon.com/iam/home?region=us-east-1#/roles
 * Update `.env` with newly created IDs
-* Test via new domain name
+  * `FUNCTION_ID` is the ID appended to your new lambda's name
+  * Looks something like: `QuickTrackStack-QuickTrackLambda-2HH2H3HTLEU4O`
+* Update `scripts/update_lambda_package.sh` with your domain
+* Run `scripts/update_lambda_package.sh`
+* Update the Twilio service URL
+  * https://www.twilio.com/console/sms/services
+  * -> YourMessagingService
+  * -> Inbound Settings
+  * -> Request URL
+  * -> `https://<-your id->.execute-api.us-east-1.amazonaws.com/Prod/addphoto`
+* Test your end to end by going to your website OR sending a text message to your Twilio SMS number.
 
-## Architecture Diagram
+## Architecture Diagram (in progress)
 
-* In progress...
+* << placeholder >>
 
 ## Local Development
 
-* Update `scripts/update_lambda_package.sh` with correct URLs
 * If modifying Ruby or HTML, run: `./scripts/update_lambda_package.sh`
 * If modifying SAM or AWS, run: `./scripts/create_lambda_package.sh`
 * If adding or modifying gems, run before create/update: `bundle install --deployment --path=.`
 
-## Deploy
+## Deploy (in progress)
 
 * Check into "master"
 * Boom 💥
@@ -100,7 +129,6 @@ uses AWS Lambda to process images, DynamoDB to store information and Twilio to h
 * Fixup/refactor "inherited" Ruby syntax and design
 * Add nokogiri gem
 * Add TwilioClient back to Lambda function (or remove completely)
-* Update UI to use Vue
+* Convert inherited jQuery to Vue.js
   * Add Webpacker/VueCLI/etc.
-* Fix DynamoDB writes/data
-* Add quick test script to validate new deployment was successful
+* Fix the whole DynamoDB data storage concept
