@@ -45,7 +45,10 @@ These aren't barriers, just assumptions as they're probably defaults
 * Install `aws` cli via brew (or other package managers)
   * `brew install awscli` 
   * `aws --version` (_should be around version 1.16.170_)
-  * You might need to setup credentials
+  * You might need to setup your AWS credentials + config
+    * `~/.aws/config`
+    * `~/.aws/credentials`
+* Open `sam/template.yaml` and other files and replace `QuickTrack` and associated URLs with your app name
 * Run `./scripts/create_lambda_package.sh`
   * You should see `Successfully created/updated stack - QuickTrackStack`
   * and
@@ -74,8 +77,8 @@ These aren't barriers, just assumptions as they're probably defaults
 ## Local Development
 
 * If modifying Ruby or HTML, run: `./scripts/update_lambda_package.sh`
-* If modifying SAM or AWS, run: `./scripts/create_lambda_package.sh`
-* If adding or modifying gems, run before create/update: `bundle install --deployment --path=.`
+* If modifying SAM or AWS, run: `./scripts/create_lambda_package.sh` (this should run an update if there are any changes)
+* If adding or modifying gems, check the `scripts/create_lambda_package.sh` for bundle install commands
 
 ## Deploy (in progress)
 
@@ -83,7 +86,7 @@ These aren't barriers, just assumptions as they're probably defaults
 * Boom 💥
 
 ## Actual Deploy Steps
-* Github master kicks off Github Actions
+* Commiting to master branch kicks off Github Actions workflow
 * ...
 
 ## Connecting the dots & Testing
@@ -121,12 +124,13 @@ These aren't barriers, just assumptions as they're probably defaults
 * [Nokogiri w/Ruby Lambda issue fix - Medium.com](https://www.stevenringo.com/ruby-in-aws-lambda-with-postgresql-nokogiri/)
 * [Using Ruby-Gems with Native Extensions on AWS Lambda](https://blog.francium.tech/using-ruby-gems-with-native-extensions-on-aws-lambda-aa4a3b8862c9)
 * [Bundle issue](https://stackoverflow.com/questions/53634260/how-can-i-get-my-aws-lambda-to-access-gems-stored-in-vendor-bundle)
-
+* [Adding CloudFront and Certificates Manually](https://medium.com/@maciejtreder/custom-domain-in-aws-api-gateway-a2b7feaf9c74)
 
 ## TODO
 
 * Connect Github Actions so we can deploy automatically
 * Fixup/refactor "inherited" Ruby syntax and design
+* Probably should lock down the S3 policy a bit more
 * Add nokogiri gem
 * Add TwilioClient back to Lambda function (or remove completely)
 * Convert inherited jQuery to Vue.js
