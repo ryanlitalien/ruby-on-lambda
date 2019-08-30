@@ -16,7 +16,7 @@ export default {
     food: {
       type: Object,
       required: true
-    }
+    },
   }
 }
 </script>
