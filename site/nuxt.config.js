@@ -1,28 +1,43 @@
-
 export default {
-  mode: 'spa',
+  mode: "spa",
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: "QuickTrack",
     meta: [
-      { charset: 'utf-8' },
-      { property: 'og:url', content: "http://www.quicktrack.pro"},
-      { property: 'og:type', content: "article" },
-      { property: 'og:title', content: "QuickTrack - Track your food by SMS/MMS" },
-      { property: 'og:description',
-        content: "Tracking your food? Use QuickTrack to easily track and share your food after every meal." },
-      { property: 'og:image', content: "http://www.quicktrack.pro/images/header_photo.png" },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description',
-        content: "Tracking your food? Use QuickTrack to easily track and share your food after every meal." }
+      { charset: "utf-8" },
+      { property: "og:url", content: "http://www.quicktrack.pro" },
+      { property: "og:type", content: "article" },
+      {
+        property: "og:title",
+        content: "QuickTrack - Track your food by SMS/MMS"
+      },
+      {
+        property: "og:description",
+        content:
+          "Tracking your food? Use QuickTrack to easily track and share your food after every meal."
+      },
+      {
+        property: "og:image",
+        content: "http://www.quicktrack.pro/images/header_photo.png"
+      },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "Tracking your food? Use QuickTrack to easily track and share your food after every meal."
+      }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
-        rel: "stylesheet", crossorigin: "anonymous", integrity: "sha256-zmfNZmXoNWBMemUOo1XUGFfc0ihGGLYdgtJS3KCr/l0=",
-        href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
+        rel: "stylesheet",
+        crossorigin: "anonymous",
+        integrity: "sha256-zmfNZmXoNWBMemUOo1XUGFfc0ihGGLYdgtJS3KCr/l0=",
+        href:
+          "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
       }
     ],
     script: [
@@ -37,44 +52,50 @@ export default {
     ]
   },
   /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#fff' },
+   ** Customize the progress-bar color
+   */
+  loading: { color: "#fff" },
   /*
-  ** Global CSS
-  */
-  css: [
-  ],
+   ** Global CSS
+   */
+  css: [],
   /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: [
-  ],
+   ** Plugins to load before mounting the App
+   */
+  plugins: [],
   /*
-  ** Nuxt.js dev-modules
-  */
-  buildModules: [
-  ],
+   ** Nuxt.js dev-modules
+   */
+  buildModules: [],
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [
     // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt',
+    "bootstrap-vue/nuxt",
     // Doc: https://axios.nuxtjs.org/setup
-    '@nuxtjs/axios',
+    "@nuxtjs/axios"
   ],
   axios: {
     // proxyHeaders: false
   },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: "pre",
+          test: /\.(js|vue)$/,
+          loader: "eslint-loader",
+          exclude: /(node_modules)/
+        })
+      }
     }
   }
 }
