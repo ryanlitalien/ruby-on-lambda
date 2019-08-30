@@ -6,9 +6,8 @@ RUN npm install -g yarn
 # make the 'app' folder the current working directory
 WORKDIR /app
 
-# copy both 'package.json' and 'yarn.lock'
-COPY package.json ./
-COPY yarn.lock ./
+# copy all vue files
+COPY ../site/. ./
 
 # install project dependencies
 RUN yarn install
