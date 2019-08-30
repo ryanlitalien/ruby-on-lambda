@@ -7,7 +7,7 @@ RUN npm install -g yarn
 WORKDIR /app
 
 # copy all vue files
-COPY ../site/. ./
+COPY ./site/. ./
 
 # install project dependencies
 RUN yarn install
