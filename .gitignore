@@ -4,3 +4,6 @@ dist/
 .bundle/
 ruby/2.5.0/
 vendor/
+
+# Mac OSX
+.DS_Store

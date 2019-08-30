@@ -9,7 +9,7 @@ Why not? :)
 I have been using lots of these technologies in different projects, but I wanted to show an example of all of them being
 used within one clearly documented project. There will be a Medium article to go along with this as well. Essentially, 
 this is an example serverless app that has automatic deployment using Github Actions serving up a static HTML page that
-uses AWS Lambda to process images, DynamoDB to store information and Twilio to handle SMS/MMS.
+uses Vue.js to call ApiGateway to calll Ruby on AWS Lambda to process images, DynamoDB to store information and Twilio to handle SMS/MMS.
 
 ## THE STACK
 
@@ -89,6 +89,19 @@ These aren't barriers, just assumptions as they're probably defaults
 * Commiting to master branch kicks off Github Actions workflow
 * ...
 
+## Vue.js
+The Vue app is stored in the `site` directory and will be run at [http://localhost:3000/](http://localhost:3000/)
+
+### To get started:
+	yarn dev
+
+### To build & start for production:
+	yarn build
+	yarn start
+
+### To test:
+	yarn test
+
 ## Connecting the dots & Testing
 
 1. We should now have a publically accessible GET endpoint. Ex: `https://xxxx.execute-api.us-west-2.amazonaws.com/prod/addphoto`
@@ -125,6 +138,7 @@ These aren't barriers, just assumptions as they're probably defaults
 * [Using Ruby-Gems with Native Extensions on AWS Lambda](https://blog.francium.tech/using-ruby-gems-with-native-extensions-on-aws-lambda-aa4a3b8862c9)
 * [Bundle issue](https://stackoverflow.com/questions/53634260/how-can-i-get-my-aws-lambda-to-access-gems-stored-in-vendor-bundle)
 * [Adding CloudFront and Certificates Manually](https://medium.com/@maciejtreder/custom-domain-in-aws-api-gateway-a2b7feaf9c74)
+* [Vuex explanation](https://medium.com/dailyjs/mastering-vuex-zero-to-hero-e0ca1f421d45)
 
 ## TODO
 
