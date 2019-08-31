@@ -1,13 +1,15 @@
 export const actions = {
-  async GET_FOODS({ commit }) {
-    // let number = this.$route.params.number || "";
-    let number = "";
-    let url =
-      "https://md6r0oe3g2.execute-api.us-east-1.amazonaws.com/Prod/getphotos?from_number=" +
-      encodeURIComponent(number);
-    const data = await this.$axios.$get(url);
+  async GET_FOODS({ commit }, payload) {
+    let number = payload.number || "";
+    if(number.length > 0) {
+    let url = "https://md6r0oe3g2.execute-api.us-east-1.amazonaws.com/Prod/getphotos";
+      url = `${url}?from_number=${encodeURIComponent(number)}`;
+      const data = await this.$axios.$get(url, {
+        crossdomain: true, withCredentials: false
+      });
 
-    commit("SET_FOODS", data);
+      commit("SET_FOODS", data);
+    }
   }
 };
 

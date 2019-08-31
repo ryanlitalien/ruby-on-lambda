@@ -20,11 +20,12 @@
         Easily send your breakfast/lunch/dinner to your coach.
       </p>
       <div id="search-box" class="hero">
-        <form class="" @submit.prevent="fetchData()">
+        <form class="">
           <div class="row">
             <div class="col-md-12">
               <div class="input-group mb-3">
                 <input
+                  v-model="phoneNumber"
                   id="numberSearch"
                   type="text"
                   class="form-control"
@@ -35,11 +36,12 @@
                 >
                 <div class="input-group-append">
                   <button
+                    @click="search"
                     id="search-submit"
                     class="btn btn-primary"
                     type="button"
                   >
-                    <i class="fas fa-search" />
+                    <i class="fas fa-search"></i>
                   </button>
                 </div>
               </div>
@@ -59,7 +61,13 @@
       <div class="col-lg-12 text-center">
         <div v-if="loading">
           <h1 id="h1-title">
-            Loading...
+            Results will show here.
+          </h1>
+        </div>
+
+        <div v-else-if="foods.length === 0">
+          <h1>
+            No results found.
           </h1>
         </div>
 
@@ -75,7 +83,6 @@
         This project is open source, so open up a
         <a href="https://github.com/ryanlitalien/ruby-on-lambda" target="_blank">pull request or issue</a>!
       </p>
-      <a id="about" />
     </footer>
   </div>
 </template>
@@ -96,14 +103,12 @@ export default {
   data() {
     return {
       loading: this.isLoading,
+      phoneNumber: "",
       errors: []
     };
   },
   computed: mapGetters({
     foods: "foodsList"
-    // foods() {
-    //   return $store.state.foods;
-    // }
   }),
   watch: {
     // call again the method if the route changes
@@ -115,19 +120,24 @@ export default {
     this.fetchData();
   },
   methods: {
+    search() {
+      this.fetchData();
+    },
     fetchData() {
       this.loading = true;
-      let number = this.$route.params.id;
-      console.log("1");
-      this.$store
-        .dispatch("GET_FOODS", { number })
+      let number = this.phoneNumber;
+      if(number.length === 0) {
+        number = this.$route.params.number;
+      }
+
+      this.$store.dispatch("GET_FOODS", { number })
         .then(() => {
-          this.loading = false
+          this.loading = false;
         })
         .catch(error => {
           this.loading = true;
           console.log(error)
-        })
+        });
     }
   }
 }

@@ -22,6 +22,7 @@ module.exports = {
   rules: {
     // 'vue/no-unused-vars': 'error'
     "no-console": "off",
+    "no-debugger": "warn",
     "vue/max-attributes-per-line": "off",
   }
 };
