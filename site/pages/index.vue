@@ -25,8 +25,8 @@
             <div class="col-md-12">
               <div class="input-group mb-3">
                 <input
-                  v-model="phoneNumber"
                   id="numberSearch"
+                  v-model="phoneNumber"
                   type="text"
                   class="form-control"
                   autofocus="autofocus"
@@ -36,12 +36,12 @@
                 >
                 <div class="input-group-append">
                   <button
-                    @click="search"
                     id="search-submit"
                     class="btn btn-primary"
                     type="button"
+                    @click="search"
                   >
-                    <i class="fas fa-search"></i>
+                    <i class="fas fa-search" />
                   </button>
                 </div>
               </div>
