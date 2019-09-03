@@ -142,11 +142,11 @@ The Vue app is stored in the `site` directory and will be run at [http://localho
 
 ## TODO
 
-* Connect Github Actions so we can deploy automatically
 * Fixup/refactor "inherited" Ruby syntax and design
-* Probably should lock down the S3 policy a bit more
+* Lock down the S3 policy
 * Add nokogiri gem
 * Add TwilioClient back to Lambda function (or remove completely)
-* Convert inherited jQuery to Vue.js
-  * Add Webpacker/VueCLI/etc.
 * Fix the whole DynamoDB data storage concept
+* ~~Connect Github Actions so we can deploy automatically~~
+* ~~Convert inherited jQuery to Vue.js~~
+  * ~~Add Webpacker/VueCLI/etc.~~
