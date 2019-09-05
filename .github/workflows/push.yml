@@ -1,0 +1,24 @@
+on: push
+name: Build and test
+jobs:
+  build:
+    name: yarn.build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: yarn.build
+      uses: actions/docker/cli@master
+      with:
+        args: build -f .github/Dockerfile -t ci-${{ github.sha }}:latest .
+    - name: yarn.lint
+      uses: actions/docker/cli@master
+      with:
+        args: run ci-${{ github.sha }}:latest yarn lint
+    - name: yarn.test
+      uses: actions/docker/cli@master
+      with:
+        args: run ci-${{ github.sha }}:latest yarn test
+    - name: git.pull_request
+      uses: actions/bin/filter@master
+      with:
+        args: ref refs/heads/*
