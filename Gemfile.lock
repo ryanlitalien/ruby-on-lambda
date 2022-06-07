@@ -22,7 +22,7 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.3)
     dotenv (2.7.2)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
 
 PLATFORMS
   ruby
